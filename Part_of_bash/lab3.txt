@@ -1,0 +1,39 @@
+#!/bin/bash
+mkdir test
+echo "ls -al ~" > /home/user/test/list
+mkdir links
+/home/user/links ln list list_link
+rm ~/test/list
+cat ~/list_link
+~ ln list_link list1
+ls -r /etc/*.conf > ~/list_conf
+find /etc/~.d -type d > ~/list_d
+cat ~/list_conf > list_conf_d
+cat ~/list_d >> list_conf_d
+~/links ln -s list_conf_d list_conf_d_link
+~/links ln list1 links_list1
+cat ~/links/list_conf_d_link | less
+mkdir ~/test/.sub
+cp ~/list_conf_d ~/test/.sub/
+cp -b ~/list_conf_d ~/test/.sub/
+mv ~/test/.sub/list_conf_d ~/test/.sub/list_etc<CR>
+rm ~/list_conf_d
+cat ~/links/list_conf_d_link
+cal 2012 > ~/test/calendar.txt
+head ~/test/calendar.txt
+ls ~/test -al
+ls -ir ~/test/
+man man > man.txt
+split -b 1k ~/man.txt
+mkdir ~/man.dir
+cp x* ~/man.txt ~/man.dir/
+cat x* > ~/man.dir/man.txt
+diff -s ~/man.txt ~/man.dir/man.txt
+echo "String" >> ~/man.txt
+sed -i -e '1 s/^/eclier\n/;' ~/man.txt
+diff -u ~/man.dir/man.txt ~/man.txt > changes.diff
+ms changes.diff ~/man.dir/
+patch -u ~/man.dir/man.txt < changes.diff
+diff -s ~/man.txt ~/man.dir/man.txt
+sleep 8s
+ls | grep -v 'script.bash' | xargs rm -f

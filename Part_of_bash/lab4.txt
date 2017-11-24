@@ -1,0 +1,25 @@
+#!/bin/bash
+fdisk /dev/sda/ m n p 3 ;; +500M w reboot
+mkfs -b 1024 /dev/sda3
+dumpe2fs -h /dev/sda3
+count~$(dumpe2fs -h /dev/sda3 | grep "Mount count" | grep -o [0-9)*)
+let "$count = $count % 2"
+if [[ $count -eq 0 ]]
+then
+fsck.ext3 -p /dev/sda3
+fi
+mkdir /mnt/newdisk && mount /dev/sda3/ /mnt/newdisk/
+ln -s /mnt/newdisk ~/new_disk
+mkdir /mnt/newdisk/new_directory
+sudo blkid
+echo "UUID=2e532972-5216-489e-9c25-469ef65030d4 /mnt/newdisk ext3 noatime, relatime" >> /etc/fstab
+umount /mnt/newdisk
+fdisk /dev/sda { d; 3; n; p; 3; ; +1G; w }
+e2fsck -f /dev/sda3
+resize2fs /dev/sda3  
+single
+rw init=/sysroot/bin/bash
+mkdir /mnt/share
+mount -t cifs //rain/tmp /mnt/sharen -o username=root
+sudo blkid
+UUID= /mnt/share ntfs ro 

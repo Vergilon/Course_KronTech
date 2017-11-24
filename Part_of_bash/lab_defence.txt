@@ -1,0 +1,22 @@
+#!/bin/bash
+n=1
+a=1
+while [ "$a" -eq 1 ]
+do
+user=$(cat cr_us.txt | awk '{print $1}' | tail -n +$n | head -n 1)
+pas=$(cat cr_us.txt | awk '{print $3}' | tail -n +$n | head -n 1)
+let n=n+1
+if [ "$user" = "" ]
+then 
+let a=a-1
+exit 1
+fi
+useradd -m -p $(echo "$pas" | openssl passwd -1 -stdin) "$user" 
+echo "user $user with password $pas create"
+done
+
+## file for create Users names cr_us.txt
+## Example this file:
+## user78 - rty
+## user75 - port
+## rv1 - rv1
